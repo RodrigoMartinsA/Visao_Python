@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+/* ── Variáveis ────────────────────────────────────────────────── */
+:root {
+    --bg-0:      #060912;
+    --bg-1:      #0d1424;
+    --bg-2:      #111827;
+    --surface:   rgba(255,255,255,0.04);
+    --border:    rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.14);
+    --text:      #e8edf5;
+    --muted:     #4b5a6e;
+    --accent:    #4f8ef7;
+    --accent-2:  #7c3aed;
+    --green:     #22d3a0;
+    --font-ui:   'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+}
+
+/* ── Reset ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Body + fundo com gradiente ───────────────────────────────── */
+body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-0);
+    background-image:
+        radial-gradient(ellipse 80% 60% at 10% 0%,   rgba(79,142,247,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%,  rgba(124,58,237,0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%,   rgba(34,211,160,0.04) 0%, transparent 70%);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* grain sutil */
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+/* ── Container principal ──────────────────────────────────────── */
+.app-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1280px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+h1 {
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: linear-gradient(90deg, #4f8ef7 0%, #a78bfa 50%, #22d3a0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p.subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* ── Layout principal ─────────────────────────────────────────── */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+    .main-content {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
+}
+
+/* ── Card da câmera ───────────────────────────────────────────── */
+.vision-card {
+    position: relative;
+    flex: 1;
+    min-width: min(640px, 100%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 0 0 1px rgba(79,142,247,0.06),
+        0 24px 48px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* linha de brilho superior */
+.vision-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(79,142,247,0.4), transparent);
+    border-radius: 99px;
+}
+
+#canvas {
+    border-radius: 12px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--border);
+}
+
+/* badge de FPS */
+.fps-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(6,9,18,0.85);
+    border: 1px solid var(--border-hi);
+    padding: 0.25rem 0.65rem;
+    border-radius: 99px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    pointer-events: none;
+    letter-spacing: 0.04em;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────── */
+.sidebar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* ── Cards da sidebar ─────────────────────────────────────────── */
+.info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.1rem 1.1rem 1.2rem;
+    backdrop-filter: blur(8px);
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: border-color 0.2s;
+}
+
+.info-card:hover {
+    border-color: var(--border-hi);
+}
+
+.info-card h3 {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+}
+
+/* ── Gestos detectados ────────────────────────────────────────── */
+#gesture-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.label-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    border-radius: 8px;
+}
+
+.label-item .name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.label-item .prob {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--green);
+}
+
+/* ── Placeholder sem gestos ───────────────────────────────────── */
+.no-gesture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.1rem 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.no-gesture span {
+    font-size: 1.6rem;
+    filter: grayscale(0.3);
+}
+
+/* ── Preview do gesto (imagem) ────────────────────────────────── */
+.gesture-preview-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 130px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.gesture-preview-box.empty {
+    border: 1.5px dashed var(--border-hi);
+}
+
+.gesture-preview-box.empty::after {
+    content: 'Faça o mesmo gesto\A com as duas mãos';
+    white-space: pre;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 1.9;
+}
+
+#gesture-image {
+    max-width: 130px;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: none;
+    filter: drop-shadow(0 0 18px rgba(79,142,247,0.35));
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1);    opacity: 0.9; }
+    50%       { transform: scale(1.07); opacity: 1;   }
+}
+
+.active-gesture {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* ── Controle de qualidade ────────────────────────────────────── */
+.quality-control {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#quality-slider {
+    flex: 1;
+    height: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 99px;
+    outline: none;
+    cursor: pointer;
+}
+
+#quality-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(79,142,247,0.6);
+    transition: transform 0.15s;
+}
+
+#quality-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+#quality-value {
+    min-width: 2.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--green);
+    text-align: right;
+}
+
+/* ── Checkbox ─────────────────────────────────────────────────── */
+.settings-control {
+    padding: 0.1rem 0;
+}
+
+.settings-control label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+}
+
+.settings-control input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.settings-control input[type="checkbox"]:checked {
+    background: var(--accent);
+}
+
+.settings-control input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg-0);
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* ── Animação de entrada ──────────────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.app-container > * {
+    animation: fadeUp 0.5s ease both;
+}
+
+.app-container > *:nth-child(1) { animation-delay: 0.05s; }
+.app-container > *:nth-child(2) { animation-delay: 0.15s; }
+.app-container > *:nth-child(3) { animation-delay: 0.25s; }
