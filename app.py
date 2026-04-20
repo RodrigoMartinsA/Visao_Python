@@ -20,7 +20,7 @@ allowed_origins = [
     "http://localhost:8000",
     "http://localhost:3000",
     "http://127.0.0.1:8000",
-    "https://seu-usuario.github.io",  # Substitua com seu GitHub Pages
+    "https://rodrigomartinsa.github.io",  # GitHub Pages
 ]
 
 # Adicionar origens de variável de ambiente (para deploy em produção)
