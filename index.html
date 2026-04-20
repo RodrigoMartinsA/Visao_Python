@@ -261,15 +261,23 @@
       <button class="modal-close" id="modal-close">&times;</button>
     </div>
     <div class="modal-body">
-      <iframe id="app-iframe" class="modal-iframe" src="/app"></iframe>
+      <iframe id="app-iframe" class="modal-iframe" src="about:blank"></iframe>
     </div>
   </div>
 </div>
 
 <script>
+  // URL do servidor Railway
+  const RAILWAY_URL = 'https://web-production-f62ea.up.railway.app';
+
   // Abrir modal com a aplicação
   document.getElementById('demo-btn').addEventListener('click', function(e) {
     e.preventDefault();
+    
+    // Atualizar src do iframe para apontar para Railway
+    const iframe = document.getElementById('app-iframe');
+    iframe.src = RAILWAY_URL + '/app';
+    
     document.getElementById('demo-modal').classList.add('active');
   });
 
