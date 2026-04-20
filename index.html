@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Gesture Recognition | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    section {
+      padding: 50px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #22c55e;
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #16a34a;
+    }
+
+    /* ──── Modal Styles ──── */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: #0f172a;
+      border-radius: 12px;
+      max-width: 90vw;
+      max-height: 90vh;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      animation: slideDown 0.3s;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #f1f5f9;
+      font-size: 28px;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: #22c55e;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #020617;
+      margin-top: 40px;
+    }
+
+    .video {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 700px;
+      height: 400px;
+      border-radius: 10px;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🖐️ AI Gesture Recognition System</h1>
+  <p>
+    Real-time gesture recognition using Artificial Intelligence and computer vision.
+    Built to detect and interpret hand movements directly from the webcam.
+  </p>
+  <button class="btn" id="demo-btn">View Live Demo</button>
+</header>
+
+<section>
+  <h2>🚀 What this project does</h2>
+  <div class="grid">
+    <div class="card">📷 Real-time webcam capture</div>
+    <div class="card">🖐️ Detects two hands simultaneously</div>
+    <div class="card">⚡ Low-latency processing</div>
+    <div class="card">🤖 Custom machine learning model</div>
+  </div>
+</section>
+
+<section>
+  <h2>🎯 Real-world applications</h2>
+  <div class="grid">
+    <div class="card">Touchless interfaces</div>
+    <div class="card">Automation systems</div>
+    <div class="card">Interactive experiences</div>
+    <div class="card">Game controls</div>
+  </div>
+</section>
+
+<section>
+  <h2>🛠️ Technologies used</h2>
+  <div class="grid">
+    <div class="card">Python</div>
+    <div class="card">MediaPipe</div>
+    <div class="card">OpenCV</div>
+    <div class="card">Scikit-learn</div>
+    <div class="card">WebSocket</div>
+    <div class="card">HTML / CSS / JS</div>
+  </div>
+</section>
+
+<section>
+  <h2>🎥 Demo</h2>
+  <div class="video">
+    <!-- Substitua pelo seu vídeo -->
+    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID"></iframe>
+  </div>
+</section>
+
+<section>
+  <h2>👨‍💻 My role</h2>
+  <p>
+    Full development of the system, including real-time image processing,
+    machine learning model training, and integration with a web interface.
+  </p>
+</section>
+
+<section>
+  <h2>💼 Available for freelance work</h2>
+  <p>
+    This project can be adapted into custom AI solutions for businesses,
+    including computer vision systems, automation tools, and intelligent interfaces.
+  </p>
+  <button class="btn" id="hire-btn">Hire Me on Fiverr</button>
+</section>
+
+<!-- ──── Modal de Demonstração ──── -->
+<div id="demo-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>🖐️ Live Gesture Recognition Demo</h2>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <iframe id="app-iframe" class="modal-iframe" src="/app"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Abrir modal com a aplicação
+  document.getElementById('demo-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('demo-modal').classList.add('active');
+  });
+
+  // Fechar modal ao clicar no X
+  document.getElementById('modal-close').addEventListener('click', function() {
+    document.getElementById('demo-modal').classList.remove('active');
+  });
+
+  // Fechar modal ao clicar fora
+  document.getElementById('demo-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+    }
+  });
+
+  // Fechar com ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('demo-modal').classList.remove('active');
+    }
+  });
+</script>
+
+<footer>
+  <p>© 2026 - Your Name | AI Developer</p>
+</footer>
+
+</body>
+</html>

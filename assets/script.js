@@ -12,6 +12,19 @@ function initApp() {
     const CAPTURE_WIDTH  = 320;
     const CAPTURE_HEIGHT = 240;
 
+    // Configurar URL do servidor
+    // Se estiver em localhost, usa localhost. Senão, usa o servidor remoto
+    function getServerUrl() {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            return location.origin; // http://localhost:8000
+        }
+        // Para GitHub Pages, usar a URL do servidor remoto
+        // Substitua com a URL real do seu servidor (Railway, Render, etc)
+        return window.API_SERVER || 'https://seu-app-remotamente.railway.app';
+    }
+
+    const SERVER_URL = getServerUrl();
+
     navigator.mediaDevices.getUserMedia({
         video: {
             width:     { ideal: CAPTURE_WIDTH },
@@ -40,8 +53,9 @@ function initApp() {
     });
 
     function initWS() {
-        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-        ws = new WebSocket(`${protocol}//${location.host}/ws`);
+        const protocol = SERVER_URL.startsWith('https') ? 'wss:' : 'ws:';
+        const wsUrl = SERVER_URL.replace(/^https?:/, '');
+        ws = new WebSocket(`${protocol}${wsUrl}/ws`);
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);

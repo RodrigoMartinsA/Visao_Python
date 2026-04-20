@@ -1,9 +1,12 @@
 import json
 import time
 import asyncio
+import os
 from concurrent.futures import ThreadPoolExecutor
 from fasthtml.common import *
 from starlette.staticfiles import StaticFiles
+from starlette.responses import FileResponse
+from starlette.middleware.cors import CORSMiddleware
 from core.processor import GestureProcessor
 from core.utils import decode_image, encode_image
 
@@ -11,6 +14,27 @@ app, rt = fast_app(hdrs=(
     Link(rel='stylesheet', href='/assets/style.css'),
     Script(src='/assets/script.js'),
 ))
+
+# Permitir CORS para GitHub Pages e localhost
+allowed_origins = [
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
+    "https://seu-usuario.github.io",  # Substitua com seu GitHub Pages
+]
+
+# Adicionar origens de variável de ambiente (para deploy em produção)
+if os.getenv('ALLOWED_ORIGINS'):
+    allowed_origins.extend(os.getenv('ALLOWED_ORIGINS').split(','))
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 processor  = GestureProcessor()
@@ -28,7 +52,17 @@ class FPSTracker:
 fps_tracker = FPSTracker()
 
 @rt("/")
-def get():
+def get_home():
+    """Serve a página inicial com os botões"""
+    from pathlib import Path
+    html_path = Path("index.html")
+    if html_path.exists():
+        return FileResponse(str(html_path), media_type="text/html")
+    return "index.html not found"
+
+@rt("/app")
+def get_app():
+    """Serve a aplicação de reconhecimento de gestos"""
     return Title("Rockit Vision — AI Hand Gesture Recognition"), Main(
         Header(
             H1("Rockit Vision"),
@@ -91,4 +125,4 @@ async def ws(image: str, draw_landmarks: bool, send):
         return
 
 if __name__ == "__main__":
-    serve(reload=False)
+    serve(reload=False, port=8000, host="0.0.0.0")
