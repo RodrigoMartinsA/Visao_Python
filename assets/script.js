@@ -20,7 +20,7 @@ function initApp() {
         }
         // Para GitHub Pages, usar a URL do servidor remoto
         // Substitua com a URL real do seu servidor (Railway, Render, etc)
-        return window.API_SERVER || 'https://seu-app-remotamente.railway.app';
+        return window.API_SERVER || 'https://web-production-f62ea.up.railway.app';
     }
 
     const SERVER_URL = getServerUrl();
