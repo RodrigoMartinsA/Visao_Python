@@ -1,6 +1,6 @@
 joblib>=1.5.3
 mediapipe>=0.10.32
-opencv-python>=4.13.0.92
+opencv-python-headless>=4.13.0.92
 pandas>=3.0.1
 python-dotenv>=1.2.2
 python-fasthtml>=0.13.0
