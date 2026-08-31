@@ -47,7 +47,7 @@
    $ git init
    $ git add .
    $ git commit -m "Initial commit"
-   $ git remote add origin C:\Users\Rodrigo\OneDrive\Documentos\Estudos\gitclone\Visao_Python
+   $ git remote add origin `https://seu-usuario.github.io/seu-repo/`
    $ git push -u origin main
 
 2. ENABLE GITHUB PAGES
