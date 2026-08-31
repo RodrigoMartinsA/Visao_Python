@@ -53,7 +53,7 @@ Visao_Python/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone git clone https://github.com/RodrigoMartinsA/Visao_Python.git
 cd seu-repositorio
 ```
 
